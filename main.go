@@ -4,9 +4,10 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber"
-	"github.com/jinzhu/gorm"
 	"github.com/luke-h1/todo-api/database"
 	"github.com/luke-h1/todo-api/todo"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 func setupRoutes(app *fiber.App) {
@@ -19,7 +20,12 @@ func setupRoutes(app *fiber.App) {
 
 func createConn() {
 	var err error
-	database.DBConn, err = gorm.Open("sqllites3", "todos.db")
+
+	database.DBConn, err = gorm.Open(sqlite.Open("test.db"))
+	if err != nil {
+		panic("failed to connect database")
+	}
+
 	if err != nil {
 		panic("❌ Failed to connect to DB!")
 	}
@@ -32,7 +38,6 @@ func main() {
 	createConn()
 
 	// close DB conns as soon as possible
-	defer database.DBConn.Close()
 
 	setupRoutes(app)
 
