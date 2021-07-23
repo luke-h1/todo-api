@@ -22,9 +22,6 @@ func createConn() {
 	var err error
 
 	database.DBConn, err = gorm.Open(sqlite.Open("test.db"))
-	if err != nil {
-		panic("failed to connect database")
-	}
 
 	if err != nil {
 		panic("❌ Failed to connect to DB!")
@@ -36,8 +33,6 @@ func main() {
 	app := fiber.New()
 
 	createConn()
-
-	// close DB conns as soon as possible
 
 	setupRoutes(app)
 
