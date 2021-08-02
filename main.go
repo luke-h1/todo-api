@@ -4,6 +4,8 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+
 	"github.com/luke-h1/todo-api/database"
 	"github.com/luke-h1/todo-api/todo"
 	"gorm.io/driver/sqlite"
@@ -37,4 +39,8 @@ func main() {
 	setupRoutes(app)
 
 	app.Listen(4000)
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3001",
+		AllowHeaders: "*",
+	}))
 }
